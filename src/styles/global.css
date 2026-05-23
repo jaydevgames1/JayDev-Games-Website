@@ -244,13 +244,14 @@ body {
 .ticker-wrap {
   width: 100%;
   overflow: hidden;
+  padding-top: 24px;
   padding-bottom: 24px;
 }
 
 .ticker-move {
   display: flex;
   width: max-content;
-  animation: ticker 30s linear infinite;
+  animation: ticker 37.5s linear infinite;
 }
 
 .ticker-move:hover {

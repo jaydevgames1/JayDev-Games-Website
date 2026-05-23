@@ -6,7 +6,6 @@ import { verifyEmailHtml } from './emails/verify.js';
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -25,13 +24,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Email required' });
   }
 
-  // Basic email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return res.status(400).json({ error: 'Invalid email format' });
   }
 
-  // Check for required environment variables
   if (!process.env.JWT_SECRET) {
     console.error('JWT_SECRET not configured');
     return res.status(500).json({ error: 'Server configuration error' });

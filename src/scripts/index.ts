@@ -16,7 +16,7 @@ document.querySelectorAll<HTMLButtonElement>('[data-scroll-carousel]').forEach((
   });
 });
 
-const btn = document.getElementById('newsletter-btn');
+const btn = document.getElementById('newsletter-btn') as HTMLButtonElement;
 const input = document.getElementById('newsletter-email') as HTMLInputElement;
 const msg = document.getElementById('newsletter-msg');
 
@@ -26,7 +26,7 @@ btn?.addEventListener('click', async () => {
     if (msg) {
       msg.classList.remove('hidden');
       msg.textContent = 'Please enter a valid email address.';
-      msg.className = 'text-sm mt-2 text-red-600';
+      msg.className = 'text-sm mt-2 text-on-primary-container';
     }
     return;
   }
@@ -44,14 +44,23 @@ btn?.addEventListener('click', async () => {
     if (msg) {
       msg.classList.remove('hidden');
       if (res.ok) {
-        msg.textContent = "Check your email to verify! 🎉";
-        msg.className = 'text-sm mt-2 text-green-600';
+        msg.textContent = "Check your email to verify!";
+        msg.className = 'text-sm mt-2 text-on-primary-container';
         input.value = '';
         btn.textContent = 'JOINED!';
       } else {
-        const errorData = await res.text();
-        msg.textContent = errorData || 'Something went wrong. Try again.';
-        msg.className = 'text-sm mt-2 text-red-600';
+        let errorMessage = 'Something went wrong. Please refresh the page and try again.';
+        try {
+          const errorData = await res.text();
+          // Only use error data if it's not HTML (404 page)
+          if (errorData && !errorData.includes('<!doctype') && !errorData.includes('<html')) {
+            errorMessage = errorData;
+          }
+        } catch (e) {
+          // If parsing fails, use default message
+        }
+        msg.textContent = errorMessage;
+        msg.className = 'text-sm mt-2 text-on-primary-container';
         btn.textContent = 'JOIN';
         btn.disabled = false;
       }
@@ -59,8 +68,8 @@ btn?.addEventListener('click', async () => {
   } catch (error) {
     if (msg) {
       msg.classList.remove('hidden');
-      msg.textContent = 'Network error. Please try again.';
-      msg.className = 'text-sm mt-2 text-red-600';
+      msg.textContent = 'Network error. Please refresh the page and try again.';
+      msg.className = 'text-sm mt-2 text-on-primary-container';
     }
     btn.textContent = 'JOIN';
     btn.disabled = false;

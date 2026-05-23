@@ -6,36 +6,67 @@ import { verifyEmailHtml } from './emails/verify';
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') return res.status(405).send('Method not allowed');
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  const { email } = req.body;
-  if (!email) return res.status(400).send('Email required');
-
-  const verifyToken = jwt.sign(
-    { email, type: 'verify' },
-    process.env.JWT_SECRET!,
-    { expiresIn: '24h' }
-  );
-
-  const unsubscribeToken = jwt.sign(
-    { email, type: 'unsubscribe' },
-    process.env.JWT_SECRET!
-  );
-
-  const verifyUrl = `https://jaydev.games/verify?token=${verifyToken}`;
-  const unsubscribeUrl = `https://jaydev.games/unsubscribe?token=${unsubscribeToken}`;
-
-  const { error } = await resend.emails.send({
-    from: 'JayDev Games <noreply@jaydev.games>',
-    to: [email],
-    subject: 'Verify your email – JayDev Games',
-    html: verifyEmailHtml(verifyUrl, unsubscribeUrl),
-  });
-
-  if (error) {
-    console.error(error);
-    return res.status(500).send('Failed to send verification email');
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
   }
 
-  return res.status(200).json({ message: 'Verification email sent' });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { email } = req.body;
+  
+  if (!email || typeof email !== 'string') {
+    return res.status(400).json({ error: 'Email required' });
+  }
+
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Invalid email format' });
+  }
+
+  // Check for required environment variables
+  if (!process.env.JWT_SECRET) {
+    console.error('JWT_SECRET not configured');
+    return res.status(500).json({ error: 'Server configuration error' });
+  }
+
+  try {
+    const verifyToken = jwt.sign(
+      { email, type: 'verify' },
+      process.env.JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
+    const unsubscribeToken = jwt.sign(
+      { email, type: 'unsubscribe' },
+      process.env.JWT_SECRET
+    );
+
+    const verifyUrl = `https://jaydev.games/verify?token=${verifyToken}`;
+    const unsubscribeUrl = `https://jaydev.games/unsubscribe?token=${unsubscribeToken}`;
+
+    const { error } = await resend.emails.send({
+      from: 'JayDev Games <noreply@jaydev.games>',
+      to: [email],
+      subject: 'Verify your email – JayDev Games',
+      html: verifyEmailHtml(verifyUrl, unsubscribeUrl),
+    });
+
+    if (error) {
+      console.error('Resend error:', error);
+      return res.status(500).json({ error: 'Failed to send verification email' });
+    }
+
+    return res.status(200).json({ message: 'Verification email sent' });
+  } catch (error) {
+    console.error('Unexpected error:', error);
+    return res.status(500).json({ error: 'An unexpected error occurred' });
+  }
 }

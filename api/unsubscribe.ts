@@ -24,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   });
 
   if (error) {
-    console.error(error);
+    console.error('Resend error:', error);
     return res.status(500).send('Failed to unsubscribe');
   }
 

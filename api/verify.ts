@@ -18,14 +18,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (payload.type !== 'verify') return res.status(400).send('Invalid token type');
 
-  const { error } = await resend.contacts.create({ email: payload.email });
+  // Add contact to Resend
+  const { error } = await resend.contacts.create({
+    email: payload.email,
+    unsubscribed: false,
+  });
 
   if (error) {
-    console.error(error);
+    console.error('Resend error:', error);
     return res.status(500).send('Failed to add contact');
   }
 
-  // Notify yourself
+  // Send notification email
   await resend.emails.send({
     from: 'JayDev Games <noreply@jaydev.games>',
     to: ['gamesjaydev@gmail.com'],

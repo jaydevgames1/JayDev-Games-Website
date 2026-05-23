@@ -1,0 +1,62 @@
+---
+// src/pages/verify.astro
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verifying... – JayDev Games</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet" />
+</head>
+<body class="pattern-grid min-h-screen flex items-center justify-center px-margin bg-surface-container-lowest">
+  <div class="max-w-md w-full text-center">
+    <div id="state-loading">
+      <div class="font-headline-md text-headline-md uppercase mb-4">Verifying...</div>
+      <p class="font-body-md text-body-md opacity-70">Hang tight, we're confirming your email.</p>
+    </div>
+    <div id="state-success" class="hidden">
+      <div class="inline-block bg-secondary-container border-border-width-thick border-on-surface px-8 py-6 neobrutal-shadow mb-6">
+        <div class="font-headline-lg text-headline-lg uppercase">You're in!</div>
+      </div>
+      <p class="font-body-md text-body-md opacity-70 mb-6">Your email has been verified. Welcome to JayDev Games.</p>
+      <a href="/" class="inline-block bg-on-surface text-surface-container-lowest px-margin py-4 font-label-lg text-label-lg uppercase neobrutal-shadow">
+        Back to home
+      </a>
+    </div>
+    <div id="state-error" class="hidden">
+      <div class="inline-block bg-primary border-border-width-thick border-on-surface px-8 py-6 neobrutal-shadow mb-6">
+        <div class="font-headline-lg text-headline-lg uppercase text-on-primary">Link expired</div>
+      </div>
+      <p class="font-body-md text-body-md opacity-70 mb-6">This verification link is invalid or has expired. Please sign up again.</p>
+      <a href="/#newsletter-section" class="inline-block bg-on-surface text-surface-container-lowest px-margin py-4 font-label-lg text-label-lg uppercase neobrutal-shadow">
+        Try again
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const token = new URLSearchParams(window.location.search).get('token');
+    const loading = document.getElementById('state-loading')!;
+    const success = document.getElementById('state-success')!;
+    const error = document.getElementById('state-error')!;
+
+    async function verify() {
+      if (!token) { loading.classList.add('hidden'); error.classList.remove('hidden'); return; }
+
+      const res = await fetch(`/api/verify?token=${encodeURIComponent(token)}`);
+
+      loading.classList.add('hidden');
+      if (res.ok) {
+        success.classList.remove('hidden');
+      } else {
+        error.classList.remove('hidden');
+      }
+    }
+
+    verify();
+  </script>
+</body>
+</html>

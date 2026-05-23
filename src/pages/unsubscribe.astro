@@ -1,0 +1,62 @@
+---
+// src/pages/unsubscribe.astro
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unsubscribe – JayDev Games</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet" />
+</head>
+<body class="pattern-grid min-h-screen flex items-center justify-center px-margin bg-surface-container-lowest">
+  <div class="max-w-md w-full text-center">
+    <div id="state-loading">
+      <div class="font-headline-md text-headline-md uppercase mb-4">Unsubscribing...</div>
+      <p class="font-body-md text-body-md opacity-70">Give us a second.</p>
+    </div>
+    <div id="state-success" class="hidden">
+      <div class="inline-block bg-surface-container border-border-width-thick border-on-surface px-8 py-6 neobrutal-shadow mb-6">
+        <div class="font-headline-lg text-headline-lg uppercase">Done.</div>
+      </div>
+      <p class="font-body-md text-body-md opacity-70 mb-6">You've been unsubscribed. You won't hear from us again.</p>
+      <a href="/" class="inline-block bg-on-surface text-surface-container-lowest px-margin py-4 font-label-lg text-label-lg uppercase neobrutal-shadow">
+        Back to home
+      </a>
+    </div>
+    <div id="state-error" class="hidden">
+      <div class="inline-block bg-primary border-border-width-thick border-on-surface px-8 py-6 neobrutal-shadow mb-6">
+        <div class="font-headline-lg text-headline-lg uppercase text-on-primary">Something went wrong</div>
+      </div>
+      <p class="font-body-md text-body-md opacity-70 mb-6">That link doesn't look right. Try again or contact us on Discord.</p>
+      <a href="/" class="inline-block bg-on-surface text-surface-container-lowest px-margin py-4 font-label-lg text-label-lg uppercase neobrutal-shadow">
+        Back to home
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const token = new URLSearchParams(window.location.search).get('token');
+    const loading = document.getElementById('state-loading')!;
+    const success = document.getElementById('state-success')!;
+    const error = document.getElementById('state-error')!;
+
+    async function unsubscribe() {
+      if (!token) { loading.classList.add('hidden'); error.classList.remove('hidden'); return; }
+
+      const res = await fetch(`/api/unsubscribe?token=${encodeURIComponent(token)}`);
+
+      loading.classList.add('hidden');
+      if (res.ok) {
+        success.classList.remove('hidden');
+      } else {
+        error.classList.remove('hidden');
+      }
+    }
+
+    unsubscribe();
+  </script>
+</body>
+</html>

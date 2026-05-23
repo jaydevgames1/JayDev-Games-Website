@@ -44,14 +44,28 @@ import '../styles/global.css';
     const error = document.getElementById('state-error')!;
 
     async function verify() {
-      if (!token) { loading.classList.add('hidden'); error.classList.remove('hidden'); return; }
+      if (!token) { 
+        loading.classList.add('hidden'); 
+        error.classList.remove('hidden'); 
+        return; 
+      }
 
-      const res = await fetch(`/api/verify?token=${encodeURIComponent(token)}`);
-
-      loading.classList.add('hidden');
-      if (res.ok) {
-        success.classList.remove('hidden');
-      } else {
+      try {
+        const res = await fetch(`/api/verify?token=${encodeURIComponent(token)}`);
+        
+        loading.classList.add('hidden');
+        
+        if (res.ok) {
+          success.classList.remove('hidden');
+        } else {
+          // Log the error for debugging
+          const errorText = await res.text();
+          console.error('Verification failed:', res.status, errorText);
+          error.classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error('Network error:', err);
+        loading.classList.add('hidden');
         error.classList.remove('hidden');
       }
     }

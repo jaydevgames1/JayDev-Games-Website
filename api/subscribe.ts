@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Resend } from 'resend';
 import jwt from 'jsonwebtoken';
-import { verifyEmailHtml } from './emails/verify';
+import { verifyEmailHtml } from './emails/verify.js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Resend } from 'resend';
 import jwt from 'jsonwebtoken';
+import { verifiedEmailHtml } from './emails/verified.js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -41,7 +42,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   console.log('Contact added successfully:', data);
 
-  // Send notification email
+  const unsubscribeToken = jwt.sign(
+    { email: payload.email, type: 'unsubscribe' },
+    process.env.JWT_SECRET!
+  );
+  const unsubscribeUrl = `https://jaydev.games/unsubscribe?token=${unsubscribeToken}`;
+
+  try {
+    await resend.emails.send({
+      from: 'JayDev Games <noreply@jaydev.games>',
+      to: [payload.email],
+      subject: "You're All Set - JayDev Games",
+      html: verifiedEmailHtml(unsubscribeUrl),
+    });
+    console.log('Verified confirmation email sent');
+  } catch (emailError) {
+    console.error('Failed to send verified email:', emailError);
+  }
+
   try {
     await resend.emails.send({
       from: 'JayDev Games <noreply@jaydev.games>',
@@ -52,7 +70,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.log('Notification email sent');
   } catch (emailError) {
     console.error('Failed to send notification email:', emailError);
-    // Don't fail the request if notification fails
   }
 
   return res.status(200).json({ message: 'Email verified successfully' });

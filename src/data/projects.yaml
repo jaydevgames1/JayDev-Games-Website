@@ -1,0 +1,72 @@
+# Available bgColor options (Material Design 3 Color System):
+#
+# PRIMARY COLORS:
+#   bg-primary                    - Main brand color (#1728e8 - bright blue)
+#   bg-on-primary                 - Text on primary (#ffffff - white)
+#   bg-primary-container          - Primary container (#3b4bff - lighter blue)
+#   bg-on-primary-container       - Text on primary container (#e2e2ff - very light blue)
+#   bg-primary-fixed              - Fixed primary (#e0e0ff - pale blue)
+#   bg-primary-fixed-dim          - Dimmed fixed primary (#bdc2ff - soft blue)
+#   bg-inverse-primary            - Inverse primary (#bdc2ff - soft blue)
+#
+# SECONDARY COLORS:
+#   bg-secondary                  - Secondary brand color (#506600 - dark green)
+#   bg-on-secondary               - Text on secondary (#ffffff - white)
+#   bg-secondary-container        - Secondary container (#c1f100 - bright lime green)
+#   bg-on-secondary-container     - Text on secondary container (#546b00 - dark olive)
+#   bg-secondary-fixed            - Fixed secondary (#c3f400 - neon lime)
+#   bg-secondary-fixed-dim        - Dimmed fixed secondary (#abd600 - lime green)
+#
+# TERTIARY COLORS:
+#   bg-tertiary                   - Tertiary color (#8d008e - magenta)
+#   bg-on-tertiary                - Text on tertiary (#ffffff - white)
+#   bg-tertiary-container         - Tertiary container (#b500b7 - bright magenta)
+#   bg-on-tertiary-container      - Text on tertiary container (#ffd9f6 - light pink)
+#   bg-tertiary-fixed             - Fixed tertiary (#ffd7f6 - pale pink)
+#   bg-tertiary-fixed-dim         - Dimmed fixed tertiary (#ffaaf4 - soft pink)
+#
+# ERROR COLORS:
+#   bg-error                      - Error color (#ba1a1a - red)
+#   bg-on-error                   - Text on error (#ffffff - white)
+#   bg-error-container            - Error container (#ffdad6 - light red)
+#   bg-on-error-container         - Text on error container (#93000a - dark red)
+#
+# SURFACE COLORS:
+#   bg-surface                    - Base surface (#f9f9f9 - off-white)
+#   bg-surface-dim                - Dimmed surface (#dadada - light gray)
+#   bg-surface-bright             - Bright surface (#f9f9f9 - off-white)
+#   bg-surface-variant            - Surface variant (#e2e2e2 - light gray)
+#   bg-surface-container-lowest   - Lowest container (#ffffff - white)
+#   bg-surface-container-low      - Low container (#f3f3f3 - very light gray)
+#   bg-surface-container          - Standard container (#eeeeee - light gray)
+#   bg-surface-container-high     - High container (#e8e8e8 - medium light gray)
+#   bg-surface-container-highest  - Highest container (#e2e2e2 - medium gray)
+#   bg-on-surface                 - Text on surface (#1b1b1b - near black)
+#   bg-inverse-surface            - Inverse surface (#303030 - dark gray)
+#
+# BACKGROUND COLORS:
+#   bg-background                 - Background (#f9f9f9 - off-white)
+#   bg-on-background              - Text on background (#1b1b1b - near black)
+
+projects:
+  - name: FOLDS
+    description: A symmetrical puzzle game that'll leave you in Folds
+    imageUrl: https://lh3.googleusercontent.com/aida/ADBb0ugA6e4EZVmzxjx8BGli_zIiF36iHMQrL0WeEoaY-qox9yb3ZaLjh3lFAEJ22BrIbh44hkIPhn2AFK3fqH62PYSnFssjpCZU8f8ht94SM8R5gnj9cUVkFhjBxYrPCA1DgxOiLNoMRS-Ss-E7-DGb0jqvUH__GexNz-OT97YHSGJ9nwjuJWBK9nXBPMh_-vnW_ROs03BbYNvETOenY0XAx4VeGExQTkSoaxbHfSfwMRx3IXVbQc9ovb7xFSq79o2yuW_xio1COlZN-us
+    link: https://folds.jaydev.games
+    icon: bolt
+    status: Coming Late 2026
+    bgColor: bg-primary
+  - name: PROJECT II
+    description: We're building something exciting. Stay tuned for updates.
+    imageUrl: null
+    link: null
+    icon: construction
+    status: Under Construction
+    bgColor: bg-secondary-container
+  - name: UNKNOWN PROJECT
+    description: Top secret project in development. Shhh!
+    imageUrl: null
+    link: null
+    icon: question_mark
+    status: Top Secret
+    bgColor: bg-tertiary-fixed

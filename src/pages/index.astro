@@ -1,9 +1,19 @@
 ---
 import '../styles/global.css';
 import wallOfFameYaml from '../data/wall-of-fame.yaml?raw';
+import projectsYaml from '../data/projects.yaml?raw';
 import { load } from 'js-yaml';
 
 const wallOfFameData = load(wallOfFameYaml) as { members: string[] };
+const projectsData = load(projectsYaml) as { projects: Array<{
+  name: string;
+  description: string;
+  imageUrl: string | null;
+  link: string | null;
+  icon: string;
+  status: string;
+  bgColor: string;
+}> };
 
 const rotations = ['rotate-1', '-rotate-2', 'rotate-2', '-rotate-1', 'rotate-3', '-rotate-3', '-rotate-1', 'rotate-2'];
 
@@ -46,7 +56,7 @@ const memberCardsSecondLoop = isOdd
   <title>JayDev Games</title>
   <link rel="icon" type="image/png" href="/jdlogo.png" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 </head>
 <body class="text-on-surface">
 
@@ -114,67 +124,52 @@ const memberCardsSecondLoop = isOdd
             class="bg-surface-container-lowest p-2 border-border-width-thin border-on-surface neobrutal-shadow active:translate-x-1 active:translate-y-1 active:shadow-none transition-all"
             data-scroll-carousel="left"
           >
-            <span class="material-symbols-outlined">arrow_back</span>
+            <span class="material-symbols-sharp">arrow_back</span>
           </button>
           <button
             class="bg-surface-container-lowest p-2 border-border-width-thin border-on-surface neobrutal-shadow active:translate-x-1 active:translate-y-1 active:shadow-none transition-all"
             data-scroll-carousel="right"
           >
-            <span class="material-symbols-outlined">arrow_forward</span>
+            <span class="material-symbols-sharp">arrow_forward</span>
           </button>
         </div>
       </div>
       <div class="horizontal-scroll flex gap-margin px-margin overflow-x-auto pb-10" id="game-scroll">
-        <a class="block min-w-[300px] md:min-w-[400px] group" href="https://folds.jaydev.games">
-          <div class="bg-primary border-border-width-thick border-on-surface p-base neobrutal-shadow-lg transition-transform group-hover:-translate-y-2">
-            <div class="h-64 mb-base relative overflow-hidden flex items-center justify-center bg-white border-border-width-thin border-on-surface">
-              <img
-                alt="FOLDS"
-                class="w-32 h-auto object-contain"
-                src="https://lh3.googleusercontent.com/aida/ADBb0ugA6e4EZVmzxjx8BGli_zIiF36iHMQrL0WeEoaY-qox9yb3ZaLjh3lFAEJ22BrIbh44hkIPhn2AFK3fqH62PYSnFssjpCZU8f8ht94SM8R5gnj9cUVkFhjBxYrPCA1DgxOiLNoMRS-Ss-E7-DGb0jqvUH__GexNz-OT97YHSGJ9nwjuJWBK9nXBPMh_-vnW_ROs03BbYNvETOenY0XAx4VeGExQTkSoaxbHfSfwMRx3IXVbQc9ovb7xFSq79o2yuW_xio1COlZN-us"
-              />
-              <div class="absolute bottom-4 left-4 font-label-lg bg-surface-container-lowest px-2 py-1 border-border-width-thin border-on-surface">Coming Late 2026</div>
-            </div>
-            <div class="bg-surface-container-lowest p-gutter border-border-width-thin border-on-surface">
-              <h3 class="font-headline-sm text-headline-sm uppercase mb-2">FOLDS</h3>
-              <p class="font-body-md text-body-md mb-4">A symmetrical puzzle game that'll leave you in Folds</p>
-              <div class="flex justify-between items-center">
-                <span class="font-label-sm text-label-sm uppercase bg-tertiary-fixed px-2">PUZZLE</span>
-                <span class="material-symbols-outlined">bolt</span>
+        {projectsData.projects.map((project) => {
+          const CardTag = project.link ? 'a' : 'div';
+          const cardProps = project.link ? { href: project.link } : {};
+          const groupClass = project.link ? 'group' : '';
+          
+          return (
+            <CardTag class={`block w-[300px] md:w-[400px] flex-shrink-0 ${groupClass}`} {...cardProps}>
+              <div class={`${project.bgColor} border-border-width-thick border-on-surface p-base neobrutal-shadow-lg transition-transform ${project.link ? 'group-hover:-translate-y-2' : ''} h-full`}>
+                <div class="h-64 mb-base relative overflow-hidden flex items-center justify-center bg-white border-border-width-thin border-on-surface">
+                  {project.imageUrl ? (
+                    <img
+                      alt={project.name}
+                      class="max-w-full max-h-full object-contain p-4"
+                      src={project.imageUrl}
+                    />
+                  ) : (
+                    <div class="w-full h-full bg-surface-container-highest pattern-diagonal flex items-center justify-center">
+                      <div class="w-24 h-24 bg-surface-container-lowest border-border-width-thick border-on-surface flex items-center justify-center">
+                        <span class="material-symbols-sharp text-[64px]">{project.icon}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div class="bg-surface-container-lowest p-base border-border-width-thin border-on-surface h-[180px] flex flex-col">
+                  <h3 class="font-headline-sm text-headline-sm uppercase mb-2">{project.name}</h3>
+                  <p class="font-body-md text-body-md mb-4 flex-grow">{project.description}</p>
+                  <div class="flex justify-between items-center">
+                    <span class="font-label-sm text-label-sm uppercase bg-tertiary-fixed px-2 py-1">{project.status}</span>
+                    <span class="material-symbols-sharp">{project.icon}</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </a>
-        <div class="min-w-[300px] md:min-w-[400px] bg-secondary-container border-border-width-thick border-on-surface p-base neobrutal-shadow-lg">
-          <div class="h-64 mb-base relative overflow-hidden flex items-center justify-center bg-surface-container-highest pattern-diagonal">
-            <div class="w-24 h-24 bg-surface-container-lowest border-border-width-thick border-on-surface flex items-center justify-center">
-              <span class="material-symbols-outlined text-[64px]">construction</span>
-            </div>
-          </div>
-          <div class="bg-surface-container-lowest p-gutter border-border-width-thin border-on-surface">
-            <h3 class="font-headline-sm text-headline-sm uppercase mb-2">PROJECT II</h3>
-            <p class="font-body-md text-body-md mb-4">We're building something exciting. Stay tuned for updates.</p>
-            <div class="flex justify-between items-center">
-              <span class="font-label-sm text-label-sm uppercase bg-primary-fixed px-2">PROJECT UNDER CONSTRUCTION</span>
-              <span class="material-symbols-outlined">construction</span>
-            </div>
-          </div>
-        </div>
-        <div class="min-w-[300px] md:min-w-[400px] bg-tertiary-fixed border-border-width-thick border-on-surface p-base neobrutal-shadow-lg">
-          <div class="h-64 mb-base relative overflow-hidden flex items-center justify-center bg-on-surface">
-            <div class="w-24 h-24 bg-tertiary-fixed border-border-width-thick border-on-surface flex items-center justify-center">
-              <span class="material-symbols-outlined text-[64px]">question_mark</span>
-            </div>
-          </div>
-          <div class="bg-surface-container-lowest p-gutter border-border-width-thin border-on-surface">
-            <h3 class="font-headline-sm text-headline-sm uppercase mb-2">UNKNOWN PROJECT</h3>
-            <p class="font-body-md text-body-md mb-4">Top secret project in development. Shhh!</p>
-            <div class="flex justify-between items-center">
-              <span class="font-label-sm text-label-sm uppercase bg-secondary-fixed px-2">???</span>
-              <span class="material-symbols-outlined">question_mark</span>
-            </div>
-          </div>
-        </div>
+            </CardTag>
+          );
+        })}
       </div>
     </section>
 
@@ -198,7 +193,7 @@ const memberCardsSecondLoop = isOdd
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
             <div class="flex items-start gap-4">
               <div class="bg-primary text-on-primary w-10 h-10 flex-shrink-0 flex items-center justify-center border-border-width-thin border-on-surface neobrutal-shadow">
-                <span class="material-symbols-outlined">favorite</span>
+                <span class="material-symbols-sharp">favorite</span>
               </div>
               <div>
                 <h4 class="font-label-lg uppercase">100% Indie</h4>
@@ -207,7 +202,7 @@ const memberCardsSecondLoop = isOdd
             </div>
             <div class="flex items-start gap-4">
               <div class="bg-secondary-container text-on-secondary-container w-10 h-10 flex-shrink-0 flex items-center justify-center border-border-width-thin border-on-surface neobrutal-shadow">
-                <span class="material-symbols-outlined">bolt</span>
+                <span class="material-symbols-sharp">bolt</span>
               </div>
               <div>
                 <h4 class="font-label-lg uppercase">Experimental</h4>
@@ -216,7 +211,7 @@ const memberCardsSecondLoop = isOdd
             </div>
             <div class="flex items-start gap-4">
               <div class="bg-tertiary-fixed-dim w-10 h-10 flex-shrink-0 flex items-center justify-center border-border-width-thin border-on-surface neobrutal-shadow">
-                <span class="material-symbols-outlined">diversity_3</span>
+                <span class="material-symbols-sharp">diversity_3</span>
               </div>
               <div>
                 <h4 class="font-label-lg uppercase">Community Core</h4>
@@ -225,7 +220,7 @@ const memberCardsSecondLoop = isOdd
             </div>
             <div class="flex items-start gap-4">
               <div class="bg-primary-fixed-dim w-10 h-10 flex-shrink-0 flex items-center justify-center border-border-width-thin border-on-surface neobrutal-shadow">
-                <span class="material-symbols-outlined">share</span>
+                <span class="material-symbols-sharp">share</span>
               </div>
               <div>
                 <h4 class="font-label-lg uppercase">Social Presence</h4>
@@ -239,7 +234,7 @@ const memberCardsSecondLoop = isOdd
             <div class="font-display text-7xl text-on-primary">!</div>
           </div>
           <div class="aspect-square bg-secondary-container border-border-width-thick border-on-surface neobrutal-shadow-lg flex items-center justify-center">
-            <span class="material-symbols-outlined text-6xl">rocket_launch</span>
+            <span class="material-symbols-sharp text-6xl">rocket_launch</span>
           </div>
           <div class="aspect-square bg-on-surface border-border-width-thick border-on-surface neobrutal-shadow-lg flex items-center justify-center">
             <div class="w-full h-full border-border-width-thick border-primary-container pattern-diagonal opacity-30"></div>
@@ -326,11 +321,16 @@ const memberCardsSecondLoop = isOdd
   <footer class="bg-on-surface border-t-border-width-thick border-on-surface" id="contact-section">
     <div class="flex flex-col md:flex-row justify-between items-center px-margin py-margin w-full gap-gutter">
       <div class="font-headline-sm text-headline-sm font-black text-secondary-container uppercase tracking-tighter">JAYDEV GAMES</div>
-      <div class="flex flex-wrap gap-gutter justify-center">
-        <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://discord.gg/eaE7CrWvsW">Discord</a>
-        <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://youtube.com/@JayDevGames1">YouTube</a>
-        <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://www.tiktok.com/@jaydevgames">TikTok</a>
-        <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://www.instagram.com/jaydev_games?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a>
+      <div class="flex flex-col items-center gap-2">
+        <div class="flex items-center gap-1 font-body-md text-body-md text-surface-container-low">
+          Made with <span class="material-symbols-sharp" style="font-size: 16px;">favorite</span> by JayDev and <a href="https://shimpi.dev" class="text-surface-container-low hover:text-secondary-fixed transition-colors no-underline">Sahas</a>
+        </div>
+        <div class="flex flex-wrap gap-gutter justify-center">
+          <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://discord.gg/eaE7CrWvsW">Discord</a>
+          <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://youtube.com/@JayDevGames1">YouTube</a>
+          <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://www.tiktok.com/@jaydevgames">TikTok</a>
+          <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://www.instagram.com/jaydev_games?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a>
+        </div>
       </div>
       <div class="font-body-md text-body-md text-surface-container-low uppercase opacity-60">©2026 JAYDEV GAMES</div>
     </div>

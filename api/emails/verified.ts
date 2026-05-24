@@ -185,7 +185,7 @@ export function verifiedEmailHtml(unsubscribeUrl: string): string {
     </div>
 
     <div class="body-card">
-      <div class="greeting">Hey {{{USERNAME}}}, welcome in!</div>
+      <div class="greeting">Hey Player</div>
       <div class="body-text">
         You're officially part of the JayDev Games community. That means early access, secret beta
         codes, dev updates before anyone else — and first dibs on whatever we cook up next.

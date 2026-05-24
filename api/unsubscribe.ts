@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Resend } from 'resend';
 import jwt from 'jsonwebtoken';
+import { unsubscribeEmailHtml } from './emails/unsubscribe.js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -26,6 +27,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (error) {
     console.error('Resend error:', error);
     return res.status(500).send('Failed to unsubscribe');
+  }
+
+  try {
+    await resend.emails.send({
+      from: 'JayDev Games <noreply@jaydev.games>',
+      to: [payload.email],
+      subject: "You've Been Unsubscribed - JayDev Games",
+      html: unsubscribeEmailHtml(),
+    });
+    console.log('Unsubscribe confirmation email sent successfully to:', payload.email);
+  } catch (emailError) {
+    console.error('Failed to send unsubscribe confirmation email:', emailError);
   }
 
   return res.status(200).json({ message: 'Unsubscribed successfully' });

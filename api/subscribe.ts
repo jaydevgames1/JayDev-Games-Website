@@ -34,13 +34,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: "Server configuration error" });
   }
 
-  const audienceId = process.env.RESEND_AUDIENCE_ID;
-
   try {
     // Check if email already exists in Resend Contacts
     const { data: contact } = await resend.contacts.get({
       email,
-      ...(audienceId ? { audienceId } : {}),
     });
 
     if (contact) {

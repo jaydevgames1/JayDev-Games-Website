@@ -20,13 +20,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (payload.type !== "unsubscribe")
     return res.status(400).send("Invalid token type");
 
-  const audienceId = process.env.RESEND_AUDIENCE_ID;
-
   // Update the contact to unsubscribed directly by email
   const { error } = await resend.contacts.update({
     email: payload.email,
     unsubscribed: true,
-    ...(audienceId ? { audienceId } : {}),
   });
 
   if (error) {

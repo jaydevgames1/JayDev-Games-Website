@@ -34,7 +34,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: 'Server configuration error' });
   }
 
+  if (!process.env.RESEND_AUDIENCE_ID) {
+    console.error('RESEND_AUDIENCE_ID not configured');
+    return res.status(500).json({ error: 'Server configuration error' });
+  }
+
   try {
+    // Check if email already exists in the audience
+    const audienceId = process.env.RESEND_AUDIENCE_ID;
+    const { data: existingContacts } = await resend.contacts.list({
+      audienceId,
+    });
+
+    if (existingContacts) {
+      const existingContact = existingContacts.data.find(
+        (contact: any) => contact.email.toLowerCase() === email.toLowerCase()
+      );
+
+      if (existingContact) {
+        if (existingContact.unsubscribed) {
+          return res.status(400).json({ 
+            error: 'This email was previously unsubscribed. Please contact support to resubscribe.' 
+          });
+        }
+        return res.status(400).json({ 
+          error: "You're already subscribed! Check your inbox for updates." 
+        });
+      }
+    }
     const verifyToken = jwt.sign(
       { email, type: 'verify' },
       process.env.JWT_SECRET,

@@ -9,12 +9,14 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:resend": "node test-resend.js"
   },
   "dependencies": {
     "@astrojs/vercel": "^10.0.7",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.3.7",
+    "dotenv": "^16.4.7",
     "jsonwebtoken": "^9.0.3",
     "resend": "^6.12.3",
     "tailwindcss": "^4.3.0"
@@ -24,5 +26,12 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.9.1",
     "@vercel/node": "^5.8.4"
+  },
+  "overrides": {
+    "ajv": "^8.20.0",
+    "minimatch": "^10.2.5",
+    "path-to-regexp": "^6.3.0",
+    "smol-toml": "^1.6.1",
+    "undici": "^6.24.0"
   }
 }

@@ -19,8 +19,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (payload.type !== 'unsubscribe') return res.status(400).send('Invalid token type');
 
+  if (!process.env.RESEND_AUDIENCE_ID) {
+    console.error('RESEND_AUDIENCE_ID not configured');
+    return res.status(500).send('Server configuration error');
+  }
+
+  const audienceId = process.env.RESEND_AUDIENCE_ID;
+
+  // First, find the contact by email
+  const { data: contacts } = await resend.contacts.list({ audienceId });
+  
+  const contact = contacts?.data.find(
+    (c: any) => c.email.toLowerCase() === payload.email.toLowerCase()
+  );
+
+  if (!contact) {
+    console.error('Contact not found:', payload.email);
+    return res.status(404).send('Contact not found');
+  }
+
+  // Update the contact to unsubscribed
   const { error } = await resend.contacts.update({
-    email: payload.email,
+    audienceId,
+    id: contact.id,
     unsubscribed: true,
   });
 

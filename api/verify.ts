@@ -30,7 +30,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Add contact to Resend
   console.log('Attempting to add contact to Resend:', payload.email);
   
+  if (!process.env.RESEND_AUDIENCE_ID) {
+    console.error('RESEND_AUDIENCE_ID not configured');
+    return res.status(500).send('Server configuration error');
+  }
+
+  const audienceId = process.env.RESEND_AUDIENCE_ID;
+  
   const { data, error } = await resend.contacts.create({
+    audienceId,
     email: payload.email,
     unsubscribed: false,
   });

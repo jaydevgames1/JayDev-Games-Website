@@ -51,8 +51,7 @@
 projects:
   - name: FOLDS
     description: A symmetrical puzzle game that'll leave you in Folds
-    imageUrl: https://lh3.googleusercontent.com/aida/ADBb0ugA6e4EZVmzxjx8BGli_zIiF36iHMQrL0WeEoaY-qox9yb3ZaLjh3lFAEJ22BrIbh44hkIPhn2AFK3fqH62PYSnFssjpCZU8f8ht94SM8R5gnj9cUVkFhjBxYrPCA1DgxOiLNoMRS-Ss-E7-DGb0jqvUH__GexNz-OT97YHSGJ9nwjuJWBK9nXBPMh_-vnW_ROs03BbYNvETOenY0XAx4VeGExQTkSoaxbHfSfwMRx3IXVbQc9ovb7xFSq79o2yuW_xio1COlZN-us
-    link: https://folds.jaydev.games
+    imageUrl: https://jaydev.games/folds.png
     icon: bolt
     status: Coming Late 2026
     bgColor: bg-primary

@@ -3,7 +3,7 @@ import '../styles/global.css';
 import wallOfFameYaml from '../data/wall-of-fame.yaml?raw';
 import projectsYaml from '../data/projects.yaml?raw';
 import { load } from 'js-yaml';
-
+ 
 const wallOfFameData = load(wallOfFameYaml) as { members: string[] };
 const projectsData = load(projectsYaml) as { projects: Array<{
   name: string;
@@ -14,156 +14,146 @@ const projectsData = load(projectsYaml) as { projects: Array<{
   status: string;
   bgColor: string;
 }> };
-
+ 
 const rotations = ['rotate-1', '-rotate-2', 'rotate-2', '-rotate-1', 'rotate-3', '-rotate-3', '-rotate-1', 'rotate-2'];
-
+ 
 const isOdd = wallOfFameData.members.length % 2 !== 0;
-
+ 
 const memberCards = wallOfFameData.members.map((name, index) => {
   const colorClass = index % 2 === 0
-    ? 'bg-primary text-on-primary' 
-    : 'bg-secondary-container text-on-secondary-container';
+    ? 'bg-white border border-primary-container'
+    : 'bg-secondary-container border border-secondary';
+  const textClass = index % 2 === 0
+    ? 'text-primary'
+    : 'text-on-secondary-container';
   const rotation = rotations[index % rotations.length];
-  
-  return {
-    name,
-    colorClass,
-    rotation
-  };
+  return { name, colorClass, textClass, rotation };
 });
-
-const memberCardsSecondLoop = isOdd 
+ 
+const memberCardsSecondLoop = isOdd
   ? wallOfFameData.members.map((name, index) => {
       const colorClass = index % 2 === 0
-        ? 'bg-secondary-container text-on-secondary-container'
-        : 'bg-primary text-on-primary';
+        ? 'bg-secondary-container border border-secondary'
+        : 'bg-white border border-primary-container';
+      const textClass = index % 2 === 0
+        ? 'text-on-secondary-container'
+        : 'text-primary';
       const rotation = rotations[index % rotations.length];
-      
-      return {
-        name,
-        colorClass,
-        rotation
-      };
+      return { name, colorClass, textClass, rotation };
     })
   : memberCards;
 ---
-
+ 
 <!DOCTYPE html>
 <html class="light" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JayDev Games</title>
+  <title>JAYDEV GAMES | STAY WEIRD</title>
   <link rel="icon" type="image/png" href="/jdlogo.png" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 </head>
 <body class="text-on-surface">
-
-  <nav class="bg-surface-container-lowest w-full top-0 sticky border-b-border-width-thick border-on-surface z-50">
-    <div class="flex justify-between items-center px-margin py-base w-full max-w-full mx-auto">
-      <div class="font-headline-md text-headline-md font-black text-on-surface italic uppercase tracking-tighter">
+ 
+  <!-- Nav -->
+  <nav class="glass-nav w-full top-0 sticky border-b border-surface-container-high z-50">
+    <div class="flex justify-between items-center px-margin py-4 w-full max-w-full mx-auto">
+      <div class="font-headline-md text-headline-md font-black text-primary uppercase tracking-tighter">
         JAYDEV GAMES
       </div>
       <div class="hidden md:flex gap-gutter items-center">
-        <a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface hover:text-primary transition-colors" href="#projects-section">PROJECTS</a>
-        <a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface hover:text-primary transition-colors" href="#about-section">ABOUT</a>
-        <a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface hover:text-primary transition-colors" href="#community-section">COMMUNITY</a>
-        <a class="font-label-lg text-label-lg uppercase tracking-widest text-on-surface hover:text-primary transition-colors" href="#contact-section">CONTACT</a>
+        <a class="font-label-md text-label-md uppercase tracking-widest text-primary font-bold" href="#">HOME</a>
+        <a class="font-label-md text-label-md uppercase tracking-widest text-on-surface hover:text-primary transition-colors" href="#projects-section">GAMES</a>
+        <a class="font-label-md text-label-md uppercase tracking-widest text-on-surface hover:text-primary transition-colors" href="#about-section">ABOUT</a>
+        <a class="font-label-md text-label-md uppercase tracking-widest text-on-surface hover:text-primary transition-colors" href="#newsletter-section">STAY IN THE LOOP</a>
       </div>
       <button
-        class="bg-secondary-container text-on-secondary-container border-border-width-thin border-on-surface px-6 py-2 font-label-lg text-label-lg neobrutal-shadow neobrutal-button-active transition-all uppercase"
-        data-scroll-to="newsletter-section"
+        class="bg-primary text-on-primary px-8 py-3 font-label-md clay-button uppercase tracking-wider"
+        data-scroll-to="contact-section"
       >
-        STAY IN THE LOOP
+        CONTACT US
       </button>
     </div>
   </nav>
-
+ 
   <main>
-
-    <section class="pattern-grid min-h-[90vh] flex flex-col justify-center items-center text-center px-margin py-20 relative bg-surface-container-lowest overflow-hidden">
-      <div class="absolute inset-0 pointer-events-none z-0">
-        <div class="absolute top-1/4 right-20 w-32 h-32 bg-[#ffd7f6] border-4 border-on-surface opacity-80 rotate-[15deg] hidden md:block"></div>
-        <div class="absolute -top-10 -left-10 w-48 h-48 bg-[#3b4bff] border-[4px] border-on-surface rounded-full hidden lg:block"></div>
-        <div class="absolute bottom-1/4 right-[10%] w-0 h-0 border-l-[60px] border-l-transparent border-r-[60px] border-r-transparent border-b-[#CCFF00] drop-shadow-[4px_4px_0_rgba(0,0,0,1)] rotate-[15deg] hidden md:block" style="border-bottom-width: 100px;"></div>
-        <div class="absolute top-1/2 left-10 w-32 h-6 bg-on-surface rotate-[-10deg] hidden xl:block"></div>
-        <div class="absolute top-1/3 right-[5%] w-24 h-4 bg-on-surface rotate-[45deg] hidden xl:block"></div>
-        <div class="absolute top-[15%] left-[20%] text-6xl font-black text-on-surface opacity-20">+</div>
-        <div class="absolute bottom-[20%] left-[15%] text-8xl font-black text-on-surface opacity-10">+</div>
-        <div class="absolute top-[60%] right-[15%] text-5xl font-black text-on-surface opacity-20 rotate-12">+</div>
-        <div class="absolute top-[10%] right-[30%] w-12 h-12 border-[4px] border-on-surface rotate-45"></div>
-        <div class="absolute bottom-[10%] left-[40%] w-20 h-4 bg-secondary-container border-2 border-on-surface"></div>
-      </div>
+ 
+    <!-- Hero -->
+    <section class="pattern-dots min-h-[90vh] flex flex-col justify-center items-center text-center px-margin py-20 relative bg-surface">
+      <div class="absolute top-1/4 right-20 w-48 h-48 bg-primary-container opacity-40 blob animate-pulse hidden md:block"></div>
+      <div class="absolute bottom-1/4 left-20 w-32 h-32 bg-secondary-container opacity-30 blob hidden md:block"></div>
       <div class="relative z-10 max-w-4xl">
-        <h1 class="font-display text-display uppercase mb-6 leading-none">
-          <span class="inline-block bg-on-surface text-surface-container-lowest px-4 transform -rotate-1">JAYDEV</span><br />
-          <span class="inline-block bg-primary text-on-primary px-4 mt-2 transform rotate-1">GAMES</span>
+        <h1 class="font-display text-display uppercase mb-6 leading-tight">
+          <span class="inline-block bg-primary text-on-primary px-8 py-2 rounded-full transform -rotate-1 mb-2">JAYDEV</span><br />
+          <span class="inline-block bg-secondary-container text-on-secondary-container px-8 py-2 rounded-full transform rotate-1">GAMES</span>
         </h1>
-        <p class="font-headline-md text-headline-md mb-margin max-w-2xl mx-auto">
-          You've come to the <span class="bg-secondary-container px-2">right place</span>
+        <p class="font-headline-md text-headline-md mb-margin max-w-2xl mx-auto text-on-surface-variant">
+          You've come to the <span class="text-primary font-bold">right place</span>
         </p>
         <div class="flex flex-wrap justify-center gap-gutter">
           <button
-            class="bg-secondary-container text-on-secondary-container border-border-width-thick border-on-surface px-margin py-4 font-headline-sm text-headline-sm neobrutal-shadow active:translate-x-1 active:translate-y-1 active:shadow-none transition-all uppercase w-full md:w-auto"
+            class="bg-primary text-on-primary px-margin py-4 font-headline-sm clay-button uppercase min-w-[200px]"
             data-scroll-to="projects-section"
           >PROJECTS</button>
           <button
-            class="bg-surface-container-lowest text-on-surface border-border-width-thick border-on-surface px-margin py-4 font-headline-sm text-headline-sm neobrutal-shadow active:translate-x-1 active:translate-y-1 active:shadow-none transition-all uppercase w-full md:w-auto"
+            class="bg-surface-container-lowest text-primary border border-primary-container px-margin py-4 font-headline-sm clay-button uppercase min-w-[200px]"
             data-scroll-to="about-section"
           >ABOUT</button>
         </div>
       </div>
     </section>
-
-    <section class="bg-on-surface py-20 overflow-hidden border-y-border-width-thick border-on-surface" id="projects-section">
-      <div class="px-margin mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-        <h2 class="font-display text-headline-lg text-surface-container-lowest uppercase italic">PROJECTS</h2>
+ 
+    <!-- Projects -->
+    <section class="bg-surface-container-low py-20 overflow-hidden" id="projects-section">
+      <div class="px-margin mb-12 flex justify-between items-end">
+        <h2 class="font-display text-headline-lg text-on-background uppercase italic">PROJECTS</h2>
         <div class="flex gap-4">
           <button
-            class="bg-surface-container-lowest p-2 border-border-width-thin border-on-surface neobrutal-shadow active:translate-x-1 active:translate-y-1 active:shadow-none transition-all"
+            class="bg-surface-container-lowest p-4 text-primary clay-button"
             data-scroll-carousel="left"
           >
-            <span class="material-symbols-sharp">arrow_back</span>
+            <span class="material-symbols-outlined">arrow_back</span>
           </button>
           <button
-            class="bg-surface-container-lowest p-2 border-border-width-thin border-on-surface neobrutal-shadow active:translate-x-1 active:translate-y-1 active:shadow-none transition-all"
+            class="bg-surface-container-lowest p-4 text-primary clay-button"
             data-scroll-carousel="right"
           >
-            <span class="material-symbols-sharp">arrow_forward</span>
+            <span class="material-symbols-outlined">arrow_forward</span>
           </button>
         </div>
       </div>
-      <div class="horizontal-scroll flex gap-margin px-margin overflow-x-auto pb-10" id="game-scroll">
+      <div class="horizontal-scroll flex gap-margin px-margin overflow-x-auto pb-16" id="game-scroll">
         {projectsData.projects.map((project) => {
           const CardTag = project.link ? 'a' : 'div';
           const cardProps = project.link ? { href: project.link } : {};
           const groupClass = project.link ? 'group' : '';
-          
+ 
           return (
-            <CardTag class={`block w-[300px] md:w-[400px] flex-shrink-0 ${groupClass}`} {...cardProps}>
-              <div class={`${project.bgColor} border-border-width-thick border-on-surface p-base neobrutal-shadow-lg transition-transform ${project.link ? 'group-hover:-translate-y-2' : ''} h-full`}>
-                <div class="h-64 mb-base relative overflow-hidden flex items-center justify-center bg-white border-border-width-thin border-on-surface">
+            <CardTag class={`block min-w-[320px] md:min-w-[420px] ${groupClass}`} {...cardProps}>
+              <div class={`glass-card p-6 transition-transform ${project.link ? 'group-hover:-translate-y-3' : ''}`}>
+                <div class="h-72 mb-6 relative overflow-hidden flex items-center justify-center bg-white rounded-xl shadow-inner">
                   {project.imageUrl ? (
                     <img
                       alt={project.name}
-                      class="max-w-full max-h-full object-contain p-4"
+                      class="w-32 h-auto object-contain"
                       src={project.imageUrl}
                     />
                   ) : (
-                    <div class="w-full h-full bg-surface-container-highest pattern-diagonal flex items-center justify-center">
-                      <div class="w-24 h-24 bg-surface-container-lowest border-border-width-thick border-on-surface flex items-center justify-center">
-                        <span class="material-symbols-sharp text-[64px]">{project.icon}</span>
+                    <div class={`w-full h-full ${project.bgColor} flex items-center justify-center`}>
+                      <div class="w-24 h-24 bg-surface-container-lowest rounded-full clay-card flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[64px] text-secondary">{project.icon}</span>
                       </div>
                     </div>
                   )}
+                  <div class="absolute bottom-4 left-4 font-label-sm bg-primary text-on-primary px-4 py-1 rounded-full">{project.status}</div>
                 </div>
-                <div class="bg-surface-container-lowest p-base border-border-width-thin border-on-surface h-[180px] flex flex-col">
-                  <h3 class="font-headline-sm text-headline-sm uppercase mb-2">{project.name}</h3>
-                  <p class="font-body-md text-body-md mb-4 flex-grow">{project.description}</p>
+                <div class="px-2">
+                  <h3 class="font-headline-sm text-headline-sm uppercase mb-2 text-primary">{project.name}</h3>
+                  <p class="font-body-md text-body-md mb-4 text-on-surface-variant">{project.description}</p>
                   <div class="flex justify-between items-center">
-                    <span class="font-label-sm text-label-sm uppercase bg-tertiary-fixed px-2 py-1">{project.status}</span>
-                    <span class="material-symbols-sharp">{project.icon}</span>
+                    <span class="font-label-sm text-label-sm uppercase bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full">{project.status}</span>
+                    <span class="material-symbols-outlined text-primary bg-primary-container p-2 rounded-full">{project.icon}</span>
                   </div>
                 </div>
               </div>
@@ -172,174 +162,168 @@ const memberCardsSecondLoop = isOdd
         })}
       </div>
     </section>
-
-    <section class="py-20 px-margin bg-surface-container-lowest relative overflow-hidden" id="about-section">
-      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-margin items-center">
+ 
+    <!-- About -->
+    <section class="py-20 px-margin bg-surface relative overflow-hidden" id="about-section">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-xl items-center">
         <div class="order-2 md:order-1">
-          <div class="inline-block bg-secondary-container border-border-width-thin border-on-surface px-4 py-1 mb-base font-label-lg uppercase">ABOUT THE DEV</div>
+          <div class="inline-block bg-primary-container text-on-primary-container px-6 py-2 mb-6 rounded-full font-label-lg uppercase tracking-wide">ABOUT THE DEV</div>
           <h2 class="font-display text-headline-lg uppercase leading-tight mb-margin">
             JAYDEV<br />
             <span class="text-primary italic">the guy behind it all</span>
           </h2>
-          <div class="mb-margin">
-            <h3 class="font-display text-headline-sm uppercase mb-2">THE STORY SO FAR</h3>
-            <p class="font-body-md text-body-md text-on-surface opacity-90 mb-4">
+          <div class="mb-margin glass-card p-8 mb-8">
+            <h3 class="font-headline-sm uppercase mb-4 text-primary">THE STORY SO FAR</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-4">
               JayDev started out as a small indie game developer designing all sorts of mini games, as a hobby. Then, with passion, strife and a little bit of delusion, the JayDev Games empire began.
             </p>
-            <p class="font-body-md text-body-md text-on-surface opacity-90">
+            <p class="font-body-md text-body-md text-on-surface-variant">
               JayDev resides in Australia as a student developer &amp; graphic designer, with experience in HTML, CSS and JS coding and UI/UX design.
             </p>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
             <div class="flex items-start gap-4">
-              <div class="bg-primary text-on-primary w-10 h-10 flex-shrink-0 flex items-center justify-center border-border-width-thin border-on-surface neobrutal-shadow">
-                <span class="material-symbols-sharp">favorite</span>
+              <div class="bg-primary text-on-primary w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-2xl shadow-lg">
+                <span class="material-symbols-outlined">favorite</span>
               </div>
               <div>
-                <h4 class="font-label-lg uppercase">100% Indie</h4>
-                <p class="text-sm opacity-80">I answer to no one but the players. No suits, no publishers, no compromises.</p>
+                <h4 class="font-label-lg uppercase text-on-surface">100% Indie</h4>
+                <p class="text-sm text-on-surface-variant">No suits, no publishers, no compromises.</p>
               </div>
             </div>
             <div class="flex items-start gap-4">
-              <div class="bg-secondary-container text-on-secondary-container w-10 h-10 flex-shrink-0 flex items-center justify-center border-border-width-thin border-on-surface neobrutal-shadow">
-                <span class="material-symbols-sharp">bolt</span>
+              <div class="bg-secondary-container text-on-secondary-container w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-2xl shadow-lg">
+                <span class="material-symbols-outlined">bolt</span>
               </div>
               <div>
-                <h4 class="font-label-lg uppercase">Experimental</h4>
-                <p class="text-sm opacity-80">Always playing around with new concepts with familiar feels.</p>
+                <h4 class="font-label-lg uppercase text-on-surface">Experimental</h4>
+                <p class="text-sm text-on-surface-variant">New concepts with familiar feels.</p>
               </div>
             </div>
             <div class="flex items-start gap-4">
-              <div class="bg-tertiary-fixed-dim w-10 h-10 flex-shrink-0 flex items-center justify-center border-border-width-thin border-on-surface neobrutal-shadow">
-                <span class="material-symbols-sharp">diversity_3</span>
+              <div class="bg-tertiary-fixed-dim w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-2xl shadow-lg">
+                <span class="material-symbols-outlined">diversity_3</span>
               </div>
               <div>
-                <h4 class="font-label-lg uppercase">Community Core</h4>
-                <p class="text-sm opacity-80">The Discord builds our games. Feedback isn't a gift, it's my engine.</p>
+                <h4 class="font-label-lg uppercase text-on-surface">Community</h4>
+                <p class="text-sm text-on-surface-variant">Feedback is the engine.</p>
               </div>
             </div>
             <div class="flex items-start gap-4">
-              <div class="bg-primary-fixed-dim w-10 h-10 flex-shrink-0 flex items-center justify-center border-border-width-thin border-on-surface neobrutal-shadow">
-                <span class="material-symbols-sharp">share</span>
+              <div class="bg-primary-fixed-dim w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-2xl shadow-lg">
+                <span class="material-symbols-outlined">share</span>
               </div>
               <div>
-                <h4 class="font-label-lg uppercase">Social Presence</h4>
-                <p class="text-sm opacity-80">I'm on your favourite platforms, so you'll always be in the loop.</p>
+                <h4 class="font-label-lg uppercase text-on-surface">Presence</h4>
+                <p class="text-sm text-on-surface-variant">Always in the loop.</p>
               </div>
             </div>
           </div>
         </div>
-        <div class="order-1 md:order-2 grid grid-cols-2 gap-gutter">
-          <div class="aspect-square bg-primary border-border-width-thick border-on-surface neobrutal-shadow-lg flex items-center justify-center">
-            <div class="font-display text-7xl text-on-primary">!</div>
+        <div class="order-1 md:order-2 grid grid-cols-2 gap-6 p-4">
+          <div class="aspect-square bg-primary rounded-3xl shadow-2xl flex items-center justify-center transform rotate-3">
+            <div class="font-display text-8xl text-on-primary opacity-80">!</div>
           </div>
-          <div class="aspect-square bg-secondary-container border-border-width-thick border-on-surface neobrutal-shadow-lg flex items-center justify-center">
-            <span class="material-symbols-sharp text-6xl">rocket_launch</span>
+          <div class="aspect-square bg-secondary-container rounded-[3rem] shadow-2xl flex items-center justify-center transform -rotate-6">
+            <span class="material-symbols-outlined text-7xl text-on-secondary-container">rocket_launch</span>
           </div>
-          <div class="aspect-square bg-on-surface border-border-width-thick border-on-surface neobrutal-shadow-lg flex items-center justify-center">
-            <div class="w-full h-full border-border-width-thick border-primary-container pattern-diagonal opacity-30"></div>
+          <div class="aspect-square bg-surface-variant rounded-full shadow-2xl overflow-hidden transform -rotate-3">
+            <div class="w-full h-full pattern-dots opacity-40"></div>
           </div>
-          <div class="aspect-square bg-surface-container-lowest border-border-width-thick border-on-surface neobrutal-shadow-lg flex items-center justify-center p-base">
-            <div class="flex gap-2">
-              <div class="w-4 h-16 bg-primary"></div>
-              <div class="w-4 h-16 bg-primary"></div>
-              <div class="w-4 h-16 bg-primary"></div>
+          <div class="aspect-square bg-surface-container-lowest rounded-3xl shadow-2xl flex items-center justify-center p-base transform rotate-6">
+            <div class="flex gap-3">
+              <div class="w-5 h-20 bg-primary rounded-full"></div>
+              <div class="w-5 h-20 bg-primary opacity-60 rounded-full"></div>
+              <div class="w-5 h-20 bg-primary opacity-30 rounded-full"></div>
             </div>
           </div>
         </div>
       </div>
     </section>
-
-    <section class="py-20 bg-surface-container-lowest border-t-border-width-thick border-on-surface pattern-grid relative" id="community-section">
-      <div class="mx-auto w-full">
-        <div class="mb-12 px-margin">
-          <div class="inline-block bg-secondary-container border-border-width-thin border-on-surface px-4 py-1 mb-base font-label-lg uppercase">OUR LEGENDS</div>
-          <h2 class="font-display text-headline-lg uppercase italic text-primary leading-tight">
-            COMMUNITY<br />
-            <span class="text-on-surface not-italic">WALL OF FAME</span>
-          </h2>
-        </div>
-        <div class="flex flex-col items-center gap-12 w-full">
-          <div class="ticker-wrap w-full overflow-hidden">
-            <div class="ticker-move" style="padding-left: 32px; padding-right: 32px;">
-              <div class="flex gap-12">
-                {memberCards.map((member) => (
-                  <div class={`${member.colorClass} border-border-width-thin border-on-surface px-8 py-4 neobrutal-shadow ${member.rotation}`}>
-                    <span class="font-label-lg uppercase text-lg whitespace-nowrap">{member.name}</span>
-                  </div>
-                ))}
-                {memberCardsSecondLoop.map((member) => (
-                  <div class={`${member.colorClass} border-border-width-thin border-on-surface px-8 py-4 neobrutal-shadow ${member.rotation}`}>
-                    <span class="font-label-lg uppercase text-lg whitespace-nowrap">{member.name}</span>
-                  </div>
-                ))}
-                {memberCards.map((member) => (
-                  <div class={`${member.colorClass} border-border-width-thin border-on-surface px-8 py-4 neobrutal-shadow ${member.rotation}`}>
-                    <span class="font-label-lg uppercase text-lg whitespace-nowrap">{member.name}</span>
-                  </div>
-                ))}
-                {memberCardsSecondLoop.map((member) => (
-                  <div class={`${member.colorClass} border-border-width-thin border-on-surface px-8 py-4 neobrutal-shadow ${member.rotation}`}>
-                    <span class="font-label-lg uppercase text-lg whitespace-nowrap">{member.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div class="px-margin w-full flex justify-center">
-            <button class="bg-surface-container-lowest border-border-width-thick border-dashed border-on-surface px-20 py-8 neobrutal-shadow hover:scale-105 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all">
-              <span class="font-headline-sm text-on-surface italic uppercase whitespace-nowrap">YOUR NAME HERE?</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="bg-primary-container py-margin px-margin border-y-border-width-thick border-on-surface" id="newsletter-section">
-      <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-margin">
-        <div class="flex-shrink-0">
+ 
+    <!-- Newsletter -->
+    <section class="bg-primary-container py-16 px-margin" id="newsletter-section">
+      <div class="max-w-5xl mx-auto glass-card p-10 flex flex-col md:flex-row items-center gap-margin">
+        <div class="flex-1">
           <h2 class="font-headline-lg text-headline-lg text-on-primary-container uppercase leading-none mb-2">STAY IN THE LOOP</h2>
-          <p class="font-body-lg text-body-lg text-on-primary-container opacity-90">No spam. Only game updates and secret beta codes.</p>
+          <p class="font-body-lg text-body-lg text-on-primary-container opacity-80">No spam. Only game updates and secret beta codes.</p>
         </div>
-        <div class="w-full md:w-auto flex flex-col gap-0 min-w-0">
-          <div class="flex flex-col sm:flex-row gap-0">
-            <input
-              id="newsletter-email"
-              class="bg-surface-container-lowest border-border-width-thick border-on-surface px-margin py-4 font-label-lg text-label-lg w-full sm:w-80 focus:ring-0 focus:outline-none focus:bg-secondary-fixed transition-colors"
-              placeholder="YOUR@EMAIL.COM"
-              type="email"
-            />
-            <button id="newsletter-btn" class="bg-on-surface text-surface-container-lowest px-margin py-4 font-headline-sm text-headline-sm border-y-border-width-thick border-r-border-width-thick border-l-border-width-thick sm:border-l-0 border-on-surface neobrutal-shadow active:translate-x-1 active:translate-y-1 active:shadow-none transition-all uppercase whitespace-nowrap">JOIN</button>
-          </div>
-          <div id="newsletter-msg" class="hidden text-sm mt-2"></div>
+        <div class="w-full md:w-auto flex flex-col sm:flex-row gap-4">
+          <input
+            id="newsletter-email"
+            class="bg-surface-container-lowest border-none rounded-full px-8 py-5 font-label-md text-on-surface w-full sm:w-80 shadow-inner focus:ring-4 focus:ring-primary/20 transition-all"
+            placeholder="YOUR@EMAIL.COM"
+            type="email"
+          />
+          <button id="newsletter-btn" class="bg-primary text-on-primary px-10 py-5 font-headline-sm clay-button uppercase whitespace-nowrap">JOIN</button>
         </div>
+        <div id="newsletter-msg" class="hidden text-sm mt-2 text-on-primary-container w-full"></div>
       </div>
     </section>
-
+ 
   </main>
-
-  <footer class="bg-on-surface border-t-border-width-thick border-on-surface" id="contact-section">
-    <div class="flex flex-col md:flex-row justify-between items-center px-margin py-margin w-full gap-gutter">
-      <div class="font-headline-sm text-headline-sm font-black text-secondary-container uppercase tracking-tighter">JAYDEV GAMES</div>
+ 
+  <!-- Wall of Fame -->
+  <section class="py-20 px-margin bg-surface border-t border-surface-container-high pattern-dots relative overflow-hidden" id="community-section">
+    <div class="mx-auto w-full">
+      <div class="mb-12 text-center">
+        <div class="inline-block bg-secondary-container text-on-secondary-container px-6 py-2 mb-4 rounded-full font-label-lg uppercase">OUR LEGENDS</div>
+        <h2 class="font-display text-headline-lg uppercase italic text-primary leading-tight">
+          COMMUNITY<br />
+          <span class="text-on-surface not-italic">WALL OF FAME</span>
+        </h2>
+      </div>
+      <div class="flex flex-col items-center gap-12 w-full overflow-hidden">
+        <div class="ticker-wrap w-full">
+          <div class="ticker-move">
+            <div class="flex gap-8 px-4">
+              {memberCards.map((member) => (
+                <div class={`${member.colorClass} px-8 py-4 rounded-full shadow-lg ${member.rotation}`}>
+                  <span class={`font-label-lg ${member.textClass} uppercase text-lg`}>{member.name}</span>
+                </div>
+              ))}
+            </div>
+            <div class="flex gap-8 px-4">
+              {memberCardsSecondLoop.map((member) => (
+                <div class={`${member.colorClass} px-8 py-4 rounded-full shadow-lg ${member.rotation}`}>
+                  <span class={`font-label-lg ${member.textClass} uppercase text-lg`}>{member.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <button class="bg-surface-container-lowest border-4 border-dashed border-primary-container px-20 py-8 rounded-full shadow-xl hover:scale-105 active:scale-95 transition-all">
+          <span class="font-headline-sm text-primary italic uppercase">YOUR NAME HERE?</span>
+        </button>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- Footer -->
+  <footer class="bg-on-background py-margin" id="contact-section">
+    <div class="flex flex-col md:flex-row justify-between items-center px-margin w-full gap-gutter">
+      <div class="font-headline-sm text-headline-sm font-black text-primary-fixed uppercase tracking-tighter">JAYDEV GAMES</div>
       <div class="flex flex-col items-center gap-2">
         <div class="flex items-center gap-1 font-body-md text-body-md text-surface-container-low">
-          Made with <span class="material-symbols-sharp text-primary" style="font-size: 16px;">favorite</span> by JayDev and <a href="https://shimpi.dev" target="_blank" rel="noopener noreferrer" class="text-surface-container-low hover:text-secondary-fixed transition-colors no-underline">Sahas</a>
+          Made with <span class="material-symbols-outlined text-primary" style="font-size: 16px;">favorite</span> by JayDev and
+          <a href="https://shimpi.dev" target="_blank" rel="noopener noreferrer" class="text-surface-container-low hover:text-primary-fixed transition-colors no-underline">Sahas</a>
         </div>
         <div class="flex flex-wrap gap-gutter justify-center">
-          <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://discord.gg/eaE7CrWvsW">Discord</a>
-          <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://youtube.com/@JayDevGames1">YouTube</a>
-          <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://www.tiktok.com/@jaydevgames">TikTok</a>
-          <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://www.instagram.com/jaydev_games?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a>
-          <a class="font-body-md text-body-md text-surface-container-low hover:text-secondary-fixed transition-colors" href="https://jaydev.games/privacy">Privacy</a>
+          <a class="font-body-md text-body-md text-surface-container-low hover:text-primary-fixed transition-colors" href="https://discord.gg/eaE7CrWvsW">Discord</a>
+          <a class="font-body-md text-body-md text-surface-container-low hover:text-primary-fixed transition-colors" href="https://youtube.com/@JayDevGames1">YouTube</a>
+          <a class="font-body-md text-body-md text-surface-container-low hover:text-primary-fixed transition-colors" href="https://www.tiktok.com/@jaydevgames">TikTok</a>
+          <a class="font-body-md text-body-md text-surface-container-low hover:text-primary-fixed transition-colors" href="https://www.instagram.com/jaydev_games?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a>
+          <a class="font-body-md text-body-md text-surface-container-low hover:text-primary-fixed transition-colors" href="https://jaydev.games/privacy">Privacy</a>
         </div>
       </div>
       <div class="font-body-md text-body-md text-surface-container-low uppercase opacity-60">©2026 JAYDEV GAMES</div>
     </div>
   </footer>
-
+ 
   <script>
     import '../scripts/index.ts';
   </script>
-
+ 
 </body>
 </html>
+ 

@@ -1,5 +1,7 @@
 @import "tailwindcss";
  
+/* ─── Material Symbols ──────────────────────────────────── */
+ 
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
@@ -8,7 +10,91 @@
   font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
  
-/* ─── Base ─────────────────────────────────────────────── */
+/* ─── Design Tokens ─────────────────────────────────────── */
+/* Ported from the Tailwind config in the HTML bundle        */
+ 
+@theme {
+  /* Colors */
+  --color-surface-bright:                #f8f9ff;
+  --color-on-secondary-fixed:            #001f2a;
+  --color-on-error:                      #ffffff;
+  --color-surface-variant:               #d3e4fe;
+  --color-inverse-surface:               #213145;
+  --color-secondary-container:           #bae6fd;
+  --color-secondary-fixed-dim:           #a1cde3;
+  --color-tertiary-fixed:                #dbe4ea;
+  --color-inverse-on-surface:            #eaf1ff;
+  --color-on-secondary-fixed-variant:    #1e4c5f;
+  --color-outline:                       #6f7973;
+  --color-primary-fixed:                 #a6f2cf;
+  --color-on-primary-fixed-variant:      #00513a;
+  --color-on-primary-container:          #247156;
+  --color-inverse-primary:               #8bd6b4;
+  --color-on-background:                 #0b1c30;
+  --color-surface-container-high:        #dce9ff;
+  --color-on-tertiary-container:         #5d666b;
+  --color-surface-tint:                  #1b6b4f;
+  --color-secondary:                     #396477;
+  --color-on-surface:                    #0b1c30;
+  --color-tertiary-fixed-dim:            #bfc8ce;
+  --color-primary:                       #1b6b4f;
+  --color-on-primary-fixed:              #002115;
+  --color-outline-variant:               #bec9c2;
+  --color-secondary-fixed:               #bee9ff;
+  --color-on-primary:                    #ffffff;
+  --color-surface-container-highest:     #d3e4fe;
+  --color-on-tertiary:                   #ffffff;
+  --color-on-secondary:                  #ffffff;
+  --color-surface-container:             #e5eeff;
+  --color-on-surface-variant:            #3f4943;
+  --color-on-tertiary-fixed:             #141d21;
+  --color-surface-container-lowest:      #ffffff;
+  --color-error:                         #ba1a1a;
+  --color-background:                    #f8f9ff;
+  --color-tertiary:                      #576065;
+  --color-primary-container:             #a7f3d0;
+  --color-on-error-container:            #93000a;
+  --color-primary-fixed-dim:             #8bd6b4;
+  --color-error-container:               #ffdad6;
+  --color-on-tertiary-fixed-variant:     #3f484d;
+  --color-surface-container-low:         #eff4ff;
+  --color-on-secondary-container:        #3d687c;
+  --color-surface:                       #f8f9ff;
+  --color-tertiary-container:            #dce5eb;
+  --color-surface-dim:                   #cbdbf5;
+  --color-on-error:                      #ffffff;
+ 
+  /* Border Radius */
+  --radius-DEFAULT: 1.5rem;
+  --radius-lg:      2rem;
+  --radius-xl:      3rem;
+  --radius-full:    9999px;
+ 
+  /* Spacing */
+  --spacing-sm:            12px;
+  --spacing-base:          8px;
+  --spacing-gutter:        24px;
+  --spacing-container-max: 1280px;
+  --spacing-xs:            4px;
+  --spacing-xl:            64px;
+  --spacing-md:            24px;
+  --spacing-lg:            40px;
+  --spacing-margin:        32px;
+ 
+  /* Font Families */
+  --font-family-display:          'DM Sans', sans-serif;
+  --font-family-headline-lg:      'DM Sans', sans-serif;
+  --font-family-headline-lg-mobile: 'DM Sans', sans-serif;
+  --font-family-headline-md:      'DM Sans', sans-serif;
+  --font-family-headline-sm:      'DM Sans', sans-serif;
+  --font-family-body-lg:          'DM Sans', sans-serif;
+  --font-family-body-md:          'DM Sans', sans-serif;
+  --font-family-label-lg:         'DM Sans', sans-serif;
+  --font-family-label-md:         'DM Sans', sans-serif;
+  --font-family-label-sm:         'DM Sans', sans-serif;
+}
+ 
+/* ─── Base ──────────────────────────────────────────────── */
  
 body {
   font-family: 'DM Sans', sans-serif;
@@ -17,62 +103,8 @@ body {
   scroll-behavior: smooth;
 }
  
-/* ─── Claymorphism ──────────────────────────────────────── */
- 
-.clay-card {
-  background: #ffffff;
-  border-radius: 2rem;
-  box-shadow:
-    8px 8px 16px rgba(167, 243, 208, 0.2),
-    -8px -8px 16px rgba(255, 255, 255, 0.8),
-    inset 2px 2px 4px rgba(255, 255, 255, 0.4),
-    inset -2px -2px 4px rgba(0, 0, 0, 0.05);
-}
- 
-.clay-button {
-  border-radius: 9999px;
-  box-shadow:
-    inset -4px -4px 8px rgba(0, 0, 0, 0.1),
-    inset 4px 4px 8px rgba(255, 255, 255, 0.5),
-    4px 4px 12px rgba(167, 243, 208, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
- 
-.clay-button:active {
-  transform: scale(0.95);
-  box-shadow:
-    inset 4px 4px 8px rgba(0, 0, 0, 0.1),
-    inset -4px -4px 8px rgba(255, 255, 255, 0.5);
-}
- 
-/* ─── Glassmorphism ─────────────────────────────────────── */
- 
-.glass-nav {
-  background: rgba(248, 249, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
- 
-.glass-card {
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 2.5rem;
-}
- 
-/* ─── Patterns & Blobs ──────────────────────────────────── */
- 
-.pattern-dots {
-  background-image: radial-gradient(#d3e4fe 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
-}
- 
-.blob {
-  border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-}
- 
 /* ─── Typography Scale ──────────────────────────────────── */
+/* These mirror the fontSize entries in the Tailwind config  */
  
 .text-display {
   font-size: 72px;
@@ -80,6 +112,8 @@ body {
   letter-spacing: -0.04em;
   font-weight: 800;
 }
+ 
+.font-display { font-family: 'DM Sans', sans-serif; }
  
 .text-headline-lg {
   font-size: 40px;
@@ -138,6 +172,72 @@ body {
   font-size: 12px;
   line-height: 16px;
   font-weight: 600;
+}
+ 
+/* font-* class aliases used in the HTML */
+.font-headline-md  { font-family: 'DM Sans', sans-serif; }
+.font-headline-lg  { font-family: 'DM Sans', sans-serif; }
+.font-headline-lg-mobile { font-family: 'DM Sans', sans-serif; }
+.font-headline-sm  { font-family: 'DM Sans', sans-serif; }
+.font-body-lg      { font-family: 'DM Sans', sans-serif; }
+.font-body-md      { font-family: 'DM Sans', sans-serif; }
+.font-label-lg     { font-family: 'DM Sans', sans-serif; }
+.font-label-md     { font-family: 'DM Sans', sans-serif; }
+.font-label-sm     { font-family: 'DM Sans', sans-serif; }
+ 
+/* ─── Claymorphism ──────────────────────────────────────── */
+ 
+.clay-card {
+  background: #ffffff;
+  border-radius: 2rem;
+  box-shadow:
+    8px 8px 16px rgba(167, 243, 208, 0.2),
+    -8px -8px 16px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.05);
+}
+ 
+.clay-button {
+  border-radius: 9999px;
+  box-shadow:
+    inset -4px -4px 8px rgba(0, 0, 0, 0.1),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.5),
+    4px 4px 12px rgba(167, 243, 208, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+ 
+.clay-button:active {
+  transform: scale(0.95);
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.1),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.5);
+}
+ 
+/* ─── Glassmorphism ─────────────────────────────────────── */
+ 
+.glass-nav {
+  background: rgba(248, 249, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+ 
+.glass-card {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 2.5rem;
+}
+ 
+/* ─── Patterns & Blobs ──────────────────────────────────── */
+ 
+.pattern-dots {
+  background-image: radial-gradient(#d3e4fe 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+ 
+.blob {
+  border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
 }
  
 /* ─── Spacing Utilities ─────────────────────────────────── */

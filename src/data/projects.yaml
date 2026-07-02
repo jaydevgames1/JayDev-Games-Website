@@ -56,12 +56,12 @@ projects:
     icon: bolt
     status: Coming Late 2026
     bgColor: bg-primary
-  - name: PROJECT II
-    description: We're building something exciting. Stay tuned for updates.
-    imageUrl: null
-    link: null
+  - name: Number Pyramid
+    description: Conquer the number pyramid and get the lowest score.
+    imageUrl: https://jaydev.games/numberpyramid.png
+    link: https://numberpyramid.jaydev.games
     icon: construction
-    status: Under Construction
+    status: In Development
     bgColor: bg-secondary-container
   - name: UNKNOWN PROJECT
     description: Top secret project in development. Shhh!
